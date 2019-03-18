@@ -1,0 +1,13 @@
+The first thing that I need to take into account when I am deploying the service into production is scalabilty, or the ability of our service to handle a constantly increasing workload. To accomplish this, I would first put the web service into a container. Allowing for applications to become encapsulated in self-contained environments comes with a slew of advantages, such as quicker deployments, scalability, and closer parity between development environments. The container that I would use would be Docker. Afterwards, I would put my dockerised container into Kubernettes. Kubernetes can be run on a public cloud service or on-premises, is highly modular, open source, has a vibrant community, more extensive than Docker's own container orchestrater (Docker Swarm) and thus is more suited to scaling. 
+
+Another thing we need to take into account is whether our ML model is going to learn offline or learn online. If a dataset isn't changing over time, then we can train offline, because it is cheaper and more reliable. However, given the nature of our webservice, we will have to choose online training. Thus, we have to regularly save our own trained model weights, probably at the end of each day and have a system that rolls back to previous weights in case something goes wron,  We can store these weights using Amazon S3, as it is cheap and supports autoremoval after a certain date. 
+
+Moreover, since the model is trained online and is changing dynamically, we will need some kind of monitoring system. These will monitor things like model predictions, test sets, and training data. For monitoring, we can use Prometheus, as it can run easily on any Docker Container. 
+
+We also need to decide our cloud hosting software, as this makes it really easy to train our model. The most popular ones are Azure, Google Cloud, and Amazon Web Services (AWS). I personally would choose AWS, as AWS is the most popular one for machine learning and the one that I have the most experience with.  
+
+In addition, we also need to decide how much CPU/GPU GHz we need. We don't need to much power, as our model is a simply logistic regression model and not a deep neural network. 
+
+An additional way to optimise are to optimising feature engineering (simply by choosing better features) that can be used as the model gets more data.  
+
+To summarise, if we want to put this model into production, we have to find a service to containerise our model, a service that aids scalability, an online cloud hosting service that we can use to train our model, determine how much power (CPU/GPU) we need, how we are going to update our model, and finally how we can iterate upon our current model. 
